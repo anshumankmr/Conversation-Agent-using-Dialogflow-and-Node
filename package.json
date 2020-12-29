@@ -1,0 +1,24 @@
+{
+  "name": "phone-repair",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [
+    "A"
+  ],
+  "author": "Anshuman Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/dialogflow": "^3.3.0",
+    "@google-cloud/storage": "^5.7.0",
+    "dialogflow-fulfillment": "^0.6.1",
+    "firebase-functions": "^3.13.0",
+    "mongoose": "^5.11.8",
+    "nodemon": "^2.0.6",
+    "uuid": "^8.3.2",
+    "winston": "^3.3.3"
+  }
+}
