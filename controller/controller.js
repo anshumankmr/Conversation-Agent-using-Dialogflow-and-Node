@@ -25,7 +25,7 @@ const updateOne = model => async (req, res) =>
 }
 const deleteOne = model => async (req, res) => 
 {
-   const doc = await crudController.deleteOne(model,req.body);   
+   const doc = await crudController.removeOne(model,req.body);   
    return statusUtil(res,doc);
 }
 const api = (req,res) =>

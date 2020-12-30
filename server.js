@@ -25,4 +25,5 @@ const start = async () => {
     console.error(e)
   }
 }
-module.exports = start;
+
+module.exports = {start: start, app: app};

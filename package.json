@@ -1,16 +1,19 @@
 {
   "name": "phone-repair",
   "version": "1.0.0",
-  "description": "",
+  "description": "A conversation agent using the MVC Architecture to simulate the working of a conversation agent used by a third party repair company.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "test": "mocha --timeout 10000"
   },
   "keywords": [
-    "A"
+    "MVC",
+    "Node",
+    "Javascript"
   ],
   "author": "Anshuman Kumar",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@google-cloud/dialogflow": "^3.3.0",
     "@google-cloud/storage": "^5.7.0",
@@ -20,5 +23,21 @@
     "nodemon": "^2.0.6",
     "uuid": "^8.3.2",
     "winston": "^3.3.3"
-  }
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^8.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anshumankmr/Conversation-Agent-using-Dialogflow-and-Node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anshumankmr/Conversation-Agent-using-Dialogflow-and-Node/issues"
+  },
+  "homepage": "https://github.com/anshumankmr/Conversation-Agent-using-Dialogflow-and-Node#readme"
 }

@@ -16,9 +16,9 @@ router.route("/user")
        .put(controller.getHealth)
        .delete(controller.getHealth);
 router.route("/query")
-       .get(controller.readOne(queryModel))
        .post(controller.createOne(queryModel))
-       .put(controller.updateOne(queryModel))
+        .get(controller.readOne(queryModel))
+        .put(controller.updateOne(queryModel))
        .delete(controller.deleteOne(queryModel));
 
 module.exports  = router;

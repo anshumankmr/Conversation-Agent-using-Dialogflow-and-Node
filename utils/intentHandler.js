@@ -141,7 +141,7 @@ function createIntentMap(agent)
  {
      console.log(agent.getContext("getissue"));
      let context = {
-                    'name' : 'getTime' ,
+                    'name' : 'getUserDetails' ,
                     'lifespan': 2, 'parameters': 
                     { 
                         'model':  agent.getContext("getissue")["parameters"]["model"],
@@ -149,9 +149,6 @@ function createIntentMap(agent)
                         'issue': agent["query"]
                     }
                 };
-    let skyfall = "Str";
-    console.log(typeof skyfall);
-    console.log(typeof context["parameters"]["brand"][0 ]);
     agent.add("I see. I am sorry to hear that.");
     agent.setContext(context);
     const doc = await crudController.insertOne(queryModel,context["parameters"]);   
@@ -163,6 +160,10 @@ function createIntentMap(agent)
     {
         console.error(e);
     }
+ }
+ function getUserDetails()
+ {
+    //enter the user details here
  }
  intentMap.set('Default Welcome Intent', welcome);
  intentMap.set("Default Fallback Intent",fallback);

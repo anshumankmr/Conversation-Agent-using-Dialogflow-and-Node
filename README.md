@@ -57,7 +57,7 @@ curl --request GET \
   --data '{
 	"model": "XR",
     "brand": "iPhone",
-    "issue": "Battery sucks"
+    "issue": "Battery life has reduced by a lot. I think you guys have created a software update to slow it down."
 }'
 ```
 We can also try this in Insomnia we have [here](./utils/image.png).

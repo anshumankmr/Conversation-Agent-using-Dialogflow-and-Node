@@ -12,7 +12,12 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true
     },
-    carLicense:{
+    phoneNumber:{
+      type: Number,
+      required: true,
+      trim: true
+    },
+    caseID:{
         type: String,
         required: true,
         trim: true
