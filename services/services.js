@@ -16,12 +16,12 @@ const getOne  = async (model,data) => {
     {
       // console.log("Hello");
       const doc = await model.findOne(data).lean().exec()
-      // console.log(doc);
+      console.log(doc);
       return doc;
     } 
     catch (e) 
     {
-      console.log("sds");
+      // console.log("sds");
       console.error(e)
       return "";
     }

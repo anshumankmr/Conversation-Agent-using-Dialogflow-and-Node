@@ -19,7 +19,7 @@ const start = async () => {
   try {
     await connect()
     app.listen(port, () => {
-      console.log(`REST API on http://localhost:/` + port)
+      console.log(" R.E.S.T A.P.I on http://localhost:/" + port)
     })
   } catch (e) {
     console.error(e)

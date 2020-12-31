@@ -2,6 +2,7 @@ const { get } = require("../router/router");
 let responseMap = require("../utils/responseHandler");
 const  crudController = require("../services/services");
 const queryModel = require("../models/queryModel.js")
+const userModel =  require("../models/userModel")
 
 function createIntentMap(agent)
 {
@@ -104,7 +105,7 @@ function createIntentMap(agent)
         }
       };
     //  console.log("Hello There",context);
-     agent.add("Alright. Describe to use your problem");
+     agent.add("Alright. Describe to us your problem");
      agent.setContext(context);
  }
  function checkAppleCare()
@@ -139,7 +140,7 @@ function createIntentMap(agent)
  }
  async function getIssue()
  {
-     console.log(agent.getContext("getissue"));
+    // console.log(agent.getContext("getissue"));
      let context = {
                     'name' : 'getUserDetails' ,
                     'lifespan': 2, 'parameters': 
@@ -150,20 +151,74 @@ function createIntentMap(agent)
                     }
                 };
     agent.add("I see. I am sorry to hear that.");
-    agent.setContext(context);
-    const doc = await crudController.insertOne(queryModel,context["parameters"]);   
     try {
+        const doc = await crudController.insertOne(queryModel,context["parameters"]);   
         agent.add("Here is your reference ID. Please note it down as our agent will ask it from you when we send them to collect your phone");
-        agent.add(doc["id"]);
+        agent.add("This is the ID " + doc["id"]);
+        context.parameters.caseID = doc["id"];
+        // console.log();
+        agent.setContext(context); 
+        agent.add("Please share with us your name for our agent and your phone number");
+
     }
     catch(e)
     {
         console.error(e);
-    }
+    }   
  }
- function getUserDetails()
+ async function getUserDetails()
  {
     //enter the user details here
+    let context = {
+        'name' : 'getuserdetails' ,
+        'lifespan': 2, 'parameters': 
+        { 
+            'model':  agent.getContext("getuserdetails")["parameters"]["model"],
+            'brand': agent.getContext("getuserdetails")["parameters"]["brand"],
+            'issue': agent.getContext("getuserdetails")["parameters"]["issue"],
+            "caseID": agent.getContext("getuserdetails")["parameters"]["caseID"],
+            "indianPhoneNumber":agent.parameters.indianPhoneNumber,
+            "person":agent.parameters.person
+        }
+    };
+    // console.log(context);
+    // console.log("THE Input ",agent.parameters);
+    console.log("The Context ",agent.getContext("getuserdetails"));
+    if ( agent.parameters.indianPhoneNumber != '' && agent.getContext("getuserdetails").parameters.person != '' && agent.getContext("getuserdetails").parameters.indianPhoneNumber == '' && agent.getContext("getuserdetails").parameters.person.name == '')
+    {
+        agent.add("Looks like the number or name isn't shared or malformed. Please reshare it");
+        agent.setContext(context);
+    }
+    else if ( agent.parameters.indianPhoneNumber == '' && agent.parameters.person.name != '' && agent.getContext("getuserdetails").parameters.person.name != '' && agent.getContext("getuserdetails").parameters.indianPhoneNumber == '')
+    {
+        agent.add("Looks like the number  isn't shared. ");
+        context.parameters["person"] = agent.parameters.person;
+    }
+    else if (  agent.parameters.person.name == '' &&  agent.parameters.indianPhoneNumber != '' && agent.getContext("getuserdetails").parameters.person.name == '' && agent.getContext("getuserdetails").parameters.indianPhoneNumber != '')
+    { 
+        agent.add("Looks like the  name isn't shared. ");  
+        context.parameters.indianPhoneNumber = agent.parameters.indianPhoneNumber;
+    }
+    else
+    {
+        agent.add("Sounds great. Our agent will call you shortly to arrange a meet");
+        console.log(agent.getContext("getuserdetails"));
+        try
+        {
+            let data = {
+                name:agent.parameters.person.name ||  agent.getContext("getuserdetails").parameters.person.name ,
+                phoneNumber:agent.parameters.indianPhoneNumber || agent.getContext("getuserdetails").parameters.indianPhoneNumber ,
+                caseID : agent.getContext("getuserdetails").parameters.caseID
+            }
+            const doc = await crudController.insertOne(userModel,data)   
+            console.log(doc);
+        }
+        catch(e)
+        {
+            console.error(e);
+        }
+    }
+   
  }
  intentMap.set('Default Welcome Intent', welcome);
  intentMap.set("Default Fallback Intent",fallback);
@@ -171,7 +226,8 @@ function createIntentMap(agent)
  intentMap.set("getAppleModel",getAppleModel);
  intentMap.set("getAndroidModel",getAndroidModel);  
  intentMap.set("checkAppleCare",checkAppleCare);
- intentMap.set("getIssue",getIssue);  
+ intentMap.set("getIssue",getIssue);
+ intentMap.set("getUserDetails",getUserDetails);  
  return intentMap;
 }
 module.exports = createIntentMap;// : createIntentMap;
